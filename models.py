@@ -13,7 +13,7 @@ class User:
 class Order:
     "Bot Order Model"
     buyer: str = ""
-    seller: str = ""
+    vendor: str = ""
     msg_id: int = 0
     item: str = ""
     address: str = ""

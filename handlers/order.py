@@ -3,6 +3,14 @@ from utils import *
 from models import Order
 
 
+def order_menu():
+    "Attached To Order When Created"
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
+    a = types.InlineKeyboardButton("🙋 Take Order", callback_data="courier")
+    keyboard.add(a)
+    return keyboard
+
+
 @bot.message_handler(commands=['order'])
 def start_order(msg):
     "Start order creation"
@@ -12,7 +20,7 @@ def start_order(msg):
         bot.delete_message(msg.chat.id, msg.message_id)
 
     question = bot.send_message(
-        msg.chat.id,
+        msg.from_user.id,
         f"Welcome back {msg.from_user.first_name}, \n\nWhat would like to order today? \nE.g Flarey sky ",
         parse_mode="html"
     )
@@ -31,8 +39,8 @@ def add_item(msg):
         parse_mode="html",
     )
     order = Order(
-        buyer=msg.from_user.id,
-        seller="",
+        buyer=msg.from_user.username,
+        vendor="",
         msg_id=order_msg.message_id,
         item=item_name,
         address="",
@@ -56,7 +64,7 @@ def add_pickup(msg):
     "Add pickup spot"
     address = msg.text
 
-    order = db_client.get_order(id=msg.from_user.id)
+    order = db_client.get_order(id=msg.from_user.username)
 
     if order is None:
 
@@ -67,8 +75,8 @@ def add_pickup(msg):
 
     else:
         newOrder = Order(
-            buyer=msg.from_user.id,
-            seller="",
+            buyer=msg.from_user.username,
+            vendor="",
             msg_id=order['msg_id'],
             item=order['item'],
             address=address,
@@ -84,9 +92,44 @@ def add_pickup(msg):
             message_id=order['msg_id'],
             text=f"<b>Order Created By @{newOrder.buyer}</b> \nItem: <b>{newOrder.item}</b> \nPickup at: <b>{newOrder.address}</b>",
             parse_mode="html",
+            reply_markup=order_menu()
         )
 
         bot.send_message(
             msg.from_user.id,
             "Order Created! Pleae check main chat to confirm your order"
         )
+
+
+def close_order(msg):
+    "This Closes The Order "
+
+    status = db_client.end_order(msg.message.id, "completed")
+    print(status)
+
+    order = db_client.get_order_by_msg_id(msg.message.id)
+
+    bot.edit_message_text(
+        chat_id=CHAT_ID,
+        message_id=order['msg_id'],
+        text=f"<b>Order Completed By @{order['vendor']}</b> To <b>@{order['buyer']}</b> \nItem: <b>{order['item']}</b> \nOrder Status: <b>{order['status']}</b>",
+        parse_mode="html",
+        reply_markup=None
+    )
+
+
+def cancel_order(msg):
+    "This Closes The Order "
+
+    status = db_client.end_order(msg.message.id)
+    print(status)
+
+    order = db_client.get_order_by_msg_id(msg.message.id, "canceled")
+
+    bot.edit_message_text(
+        chat_id=CHAT_ID,
+        message_id=order['msg_id'],
+        text=f"<b>Order Cancel By Admin  \nItem: <b>{order['item']}</b> \nOrder Status: <b>{order['status']}</b>",
+        parse_mode="html",
+        reply_markup=None
+    )

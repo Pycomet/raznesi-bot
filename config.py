@@ -27,8 +27,9 @@ TOKEN = os.getenv('TOKEN')
 DATABASE_URL = os.getenv('DATABASE_URL')
 database_client = MongoClient(DATABASE_URL)
 
-DEBUG = True
+DEBUG = False
 SERVER_URL = os.getenv("SERVER_URL")
+ADMIN = os.getenv("ADMIN")
 
 CHAT_ID = int(os.getenv("CHAT_ID"))
 

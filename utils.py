@@ -23,6 +23,13 @@ class DbClient:
         result = collection.find_one({"buyer": id, "active": True})
         return result
 
+    def get_order_by_msg_id(self, id):
+        "Get order by a specific message ID"
+        collection = self.get_collection('orders')
+        # Retunrs only active orders
+        result = collection.find_one({"msg_id": id})
+        return result
+
     def create_update_user(self, user: User):
         "Create A New User"
         collection = self.get_collection("users")
@@ -48,6 +55,14 @@ class DbClient:
             res = collection.update_one(
                 {"buyer": order.buyer}, {"$set": order.__dict__})
         return res
+
+    def end_order(self, msg_id, status):
+        "Close A Specific order"
+        collection = self.get_collection('orders')
+        # Retunrs only active orders
+        result = collection.update_one(
+            {"msg_id": msg_id}, {"$set": {"status": status}})
+        return result
 
 
 db_client = DbClient()
