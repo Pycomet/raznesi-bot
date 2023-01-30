@@ -26,7 +26,7 @@ def button_callback_answer(call):
 
         order = db_client.get_order_by_msg_id(call.message.id)
 
-        if order['buyer'] == call.from_user.username or call.from_user.id == ADMIN:
+        if order['vendor'] == call.from_user.username or call.from_user.id == ADMIN:
             # Close order
             close_order(call)
 
@@ -38,7 +38,7 @@ def button_callback_answer(call):
 
         order = db_client.get_order_by_msg_id(call.message.id)
 
-        if call.from_user.id == ADMIN:
+        if call.from_user.id == ADMIN or call.from_user.username == order['vendor']:
             # Close order
             cancel_order(call)
 
@@ -47,3 +47,6 @@ def button_callback_answer(call):
 
     else:
         pass
+
+
+``

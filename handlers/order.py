@@ -35,7 +35,7 @@ def add_item(msg):
     # Send Order Message & Create Order
     order_msg = bot.send_message(
         CHAT_ID,
-        f"<b>New Order Being Created By @{msg.from_user.id}.</b>",
+        f"<b>New Order Being Created By @{msg.from_user.id}</b>",
         parse_mode="html",
     )
     order = Order(
@@ -97,7 +97,7 @@ def add_pickup(msg):
 
         bot.send_message(
             msg.from_user.id,
-            "Order Created! Pleae check main chat to confirm your order"
+            "You just created a new order, please wait for a courier to pick it up....."
         )
 
 
@@ -129,7 +129,7 @@ def cancel_order(msg):
     bot.edit_message_text(
         chat_id=CHAT_ID,
         message_id=order['msg_id'],
-        text=f"<b>Order Cancel By Admin  \nItem: <b>{order['item']}</b> \nOrder Status: <b>{order['status']}</b>",
+        text=f"<b>Order Canceled  \nItem: <b>{order['item']}</b>",
         parse_mode="html",
         reply_markup=None
     )

@@ -40,16 +40,24 @@ def startbotn(msg):
 
 
 def start_new_user(msg):
-    address = msg.text
-    bot.send_chat_action(msg.from_user.id, "typing")
 
-    user = User(user_id=msg.from_user.id, address=address)
-    # Create user
-    res = db_client.create_update_user(user=user)
-    print(res)
+    if msg.from_user.username is None:
+        bot.send_message(
+            msg.from_user.id,
+            "Please attach a username to your account! Check your settings to be sure to have one, I can not register you on our database without one"
+        )
+    else:
 
-    bot.send_message(
-        msg.from_user.id,
-        "Account Created. Create your first order by clicking",
-        reply_markup=start_menu()
-    )
+        address = msg.text
+        bot.send_chat_action(msg.from_user.id, "typing")
+
+        user = User(user_id=msg.from_user.id, address=address)
+        # Create user
+        res = db_client.create_update_user(user=user)
+        print(res)
+
+        bot.send_message(
+            msg.from_user.id,
+            "Account Created. Create your first order by clicking",
+            reply_markup=start_menu()
+        )

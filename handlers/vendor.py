@@ -57,3 +57,8 @@ def start_vendor(msg):
             parse_mode="html",
             reply_markup=admin_menu()
         )
+
+        bot.send_message(
+            updOrder.buyer,
+            f"🏭 Order accepted by @{updOrder.vendor}"
+        )
