@@ -7,8 +7,14 @@ def order_menu():
     "Attached To Order When Created"
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     a = types.InlineKeyboardButton("🙋 Take Order", callback_data="courier")
-    b = types.InlineKeyboardButton("❌ Cancel Order", callback_data="cancel")
-    keyboard.add(a, b)
+    keyboard.add(a)
+    return keyboard
+
+
+def cancel_menu():
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
+    a = types.InlineKeyboardButton("❌ Cancel Order", callback_data="cancel")
+    keyboard.add(a)
     return keyboard
 
 
@@ -104,7 +110,8 @@ def add_pickup(msg):
 
         bot.send_message(
             msg.from_user.id,
-            "You just created a new order, please wait for a courier to pick it up....."
+            "You just created a new order, please wait for a courier to pick it up.....",
+            reply_markup=cancel_menu()
         )
 
 

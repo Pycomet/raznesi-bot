@@ -17,6 +17,6 @@ def start_addr(msg):
     else:
         question = bot.send_message(
             msg.from_user.id,
-            "To have your account registered, please provide your valid home address"
+            "To update your account, please provide your new valid home address including the part of the city"
         )
         bot.register_next_step_handler(question, start_new_user)
