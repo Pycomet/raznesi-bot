@@ -13,7 +13,7 @@ class DbClient:
     def get_user(self, user_id) -> User | None:
         "Fetch A Particular User"
         collection = self.get_collection('users')
-        result = collection.find_one({"user_id": user_id})
+        result = collection.find_one({"user_id": int(user_id)})
         return result
 
     def get_order(self, id):
