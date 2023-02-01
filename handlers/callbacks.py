@@ -48,7 +48,7 @@ def button_callback_answer(call):
     elif call.data == "cancel":
         # If Order Validated By Admin
 
-        order = db_client.get_order(call.from_user.username)
+        order = db_client.get_order(call.from_user.username)[-1]
 
         if call.from_user.id == ADMIN or call.from_user.username == order['buyer']:
             # Close order

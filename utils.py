@@ -20,7 +20,7 @@ class DbClient:
         "Fetch A Particular Order"
         collection = self.get_collection('orders')
         # Retunrs only active orders
-        result = collection.find_one({"buyer": id, "active": True})
+        result = collection.find({"buyer": id})
         return result
 
     def get_order_by_msg_id(self, id):
