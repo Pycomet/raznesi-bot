@@ -28,7 +28,7 @@ def startbot(msg):
     else:
         bot.send_message(
             msg.from_user.id,
-            "Welcome to the <b>Offical Reznesi's Order Bot </b>",
+            "Welcome to the <b>Offical Reznesi's Order Bot </b> \n\nClick /order to place an order",
             parse_mode="html"
         )
 
@@ -57,6 +57,5 @@ def start_new_user(msg):
 
         bot.send_message(
             msg.from_user.id,
-            "Account Created. Create your first order by clicking",
-            reply_markup=start_menu()
+            "Account Created. Create your first order by clicking"
         )
