@@ -67,7 +67,7 @@ def add_item(msg):
 
     question = bot.send_message(
         msg.from_user.id,
-        f"What is the pickup location for this order? ",
+        f"What is the pickup location for this order including the part of the city ? ",
         parse_mode="html"
     )
     bot.register_next_step_handler(question, add_pickup)
