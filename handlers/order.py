@@ -68,7 +68,7 @@ def add_item(msg):
 
     question = bot.send_message(
         msg.from_user.id,
-        f"What is the pickup location for this order? ",
+        f"What is the pickup location for this order including the part of the city ? ",
         parse_mode="html"
     )
     bot.register_next_step_handler(question, add_pickup)
@@ -106,14 +106,14 @@ def add_pickup(msg):
         bot.edit_message_text(
             chat_id=CHAT_ID,
             message_id=order['msg_id'],
-            text=f"<b>Order Created By @{newOrder.buyer}</b> \nItem: <b>{newOrder.item}</b> \nPickup at: <b>{newOrder.address}</b>",
+            text=f"<b>Order Created By @{newOrder.buyer}</b> \nItem: <b>{newOrder.item}</b> \nPickup at: <b>{newOrder.address}</b> \nHome Address: <b>{user['address']}</b>",
             parse_mode="html",
             reply_markup=order_menu()
         )
 
         bot.send_message(
             msg.from_user.id,
-            f"You just created a new order, please wait for a courier to pick it up..... \n\nYour Home Address: {user.address}",
+            f"You just created a new order, please wait for a courier to pick it up..... \n\nYour Home Address: {user['address']}",
             reply_markup=cancel_menu()
         )
 
@@ -157,11 +157,12 @@ def reject_order(msg):
 
     # Update order
     res = db_client.create_update_order(order=newOrder)
+    user = db_client.get_user(newOrder.from_id)
 
     bot.edit_message_text(
         chat_id=CHAT_ID,
         message_id=order['msg_id'],
-        text=f"<b>Order Created By @{newOrder.buyer}</b> \nItem: <b>{newOrder.item}</b> \nPickup at: <b>{newOrder.address}</b>",
+        text=f"<b>Order Created By @{newOrder.buyer}</b> \nItem: <b>{newOrder.item}</b> \nPickup at: <b>{newOrder.address}</b> \nHome Address: <b>{user['address']}</b>",
         parse_mode="html",
         reply_markup=order_menu()
     )

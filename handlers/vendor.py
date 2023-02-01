@@ -56,7 +56,7 @@ def start_vendor(msg):
         bot.edit_message_text(
             chat_id=CHAT_ID,
             message_id=order['msg_id'],
-            text=f"<b>New Order  By @{updOrder.buyer}</b> \nItem: <b>{updOrder.item}</b> \nPickup at: <b>{updOrder.address}</b> \nHome Address: <b>{buyer.address}</b> \nOrder Status: <b>{updOrder.status}</b> \nCourier: <b>@{updOrder.vendor}</b>",
+            text=f"<b>New Order  By @{updOrder.buyer}</b> \nItem: <b>{updOrder.item}</b> \nPickup at: <b>{updOrder.address}</b> \nHome Address: <b>{buyer['address']}</b> \nOrder Status: <b>{updOrder.status}</b> \nCourier: <b>@{updOrder.vendor}</b>",
             parse_mode="html",
             reply_markup=admin_menu()
         )
