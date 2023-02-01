@@ -35,3 +35,5 @@ CHAT_ID = int(os.getenv("CHAT_ID"))
 
 bot = telebot.TeleBot(token=TOKEN)
 app = Flask(__name__)
+
+handler_state = {}

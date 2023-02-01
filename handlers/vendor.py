@@ -7,7 +7,7 @@ def admin_menu():
     "Attached To Order When In Progress"
     keyboard = types.InlineKeyboardMarkup(row_width=2)
     a = types.InlineKeyboardButton("✔️ Complete", callback_data="done")
-    b = types.InlineKeyboardButton("❌ Cancel", callback_data="cancel")
+    b = types.InlineKeyboardButton("❌ Resign", callback_data="reject")
     keyboard.add(a, b)
     return keyboard
 
@@ -57,8 +57,9 @@ def start_vendor(msg):
             parse_mode="html",
             reply_markup=admin_menu()
         )
+        user = bot.get_chat(updOrder.buyer)
 
         bot.send_message(
-            updOrder.buyer,
+            user.id,
             f"🏭 Order accepted by @{updOrder.vendor}"
         )
