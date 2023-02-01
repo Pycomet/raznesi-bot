@@ -53,6 +53,7 @@ def add_item(msg):
     )
     order = Order(
         buyer=msg.from_user.username,
+        from_id=msg.from_user.id,
         vendor="",
         msg_id=order_msg.message_id,
         item=item_name,
@@ -67,7 +68,7 @@ def add_item(msg):
 
     question = bot.send_message(
         msg.from_user.id,
-        f"What is the pickup location for this order including the part of the city ? ",
+        f"What is the pickup location for this order? ",
         parse_mode="html"
     )
     bot.register_next_step_handler(question, add_pickup)
@@ -89,6 +90,7 @@ def add_pickup(msg):
     else:
         newOrder = Order(
             buyer=msg.from_user.username,
+            from_id=msg.from_user.id,
             vendor="",
             msg_id=order['msg_id'],
             item=order['item'],
@@ -99,6 +101,7 @@ def add_pickup(msg):
 
         # Update order
         res = db_client.create_update_order(order=newOrder)
+        user = db_client.get_user(msg.from_user.id)
 
         bot.edit_message_text(
             chat_id=CHAT_ID,
@@ -110,7 +113,7 @@ def add_pickup(msg):
 
         bot.send_message(
             msg.from_user.id,
-            "You just created a new order, please wait for a courier to pick it up.....",
+            f"You just created a new order, please wait for a courier to pick it up..... \n\nYour Home Address: {user.address}",
             reply_markup=cancel_menu()
         )
 
@@ -130,10 +133,9 @@ def close_order(msg):
         parse_mode="html",
         reply_markup=None
     )
-    user = bot.get_chat(order['buyer'])
 
     bot.send_message(
-        user.id,
+        order['from_id'],
         f"🏭 Order completed by @{order['vendor']}"
     )
 
@@ -144,6 +146,7 @@ def reject_order(msg):
 
     newOrder = Order(
         buyer=order['buyer'],
+        from_id=order['from_id'],
         vendor="",
         msg_id=order['msg_id'],
         item=order['item'],
@@ -163,21 +166,19 @@ def reject_order(msg):
         reply_markup=order_menu()
     )
 
-    user = bot.get_chat(newOrder['buyer'])
-
     bot.send_message(
-        user.id,
+        order['from_id'],
         f"🏭 Order rejected by @{msg.from_user.username}"
     )
 
 
-def cancel_order(msg):
+def cancel_order(msg_id):
     "This Closes The Order "
 
-    status = db_client.end_order(msg.message.id, "canceled")
+    status = db_client.end_order(msg_id, "canceled")
     print(status)
 
-    order = db_client.get_order_by_msg_id(msg.message.id)
+    order = db_client.get_order_by_msg_id(msg_id)
 
     bot.edit_message_text(
         chat_id=CHAT_ID,
@@ -186,9 +187,10 @@ def cancel_order(msg):
         parse_mode="html",
         reply_markup=None
     )
-    user = bot.get_chat(order['buyer'])
+    # user = bot.get_chat(order['buyer'])
+    # print(user)
 
     bot.send_message(
-        user.id,
+        order['from_id'],
         f"🏭 Order has been canceled"
     )

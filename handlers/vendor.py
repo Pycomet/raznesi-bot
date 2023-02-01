@@ -38,6 +38,7 @@ def start_vendor(msg):
         # Add vendor to order
         updOrder = Order(
             buyer=order['buyer'],
+            from_id=order['from_id'],
             vendor=msg.from_user.username,
             msg_id=order['msg_id'],
             item=order['item'],
@@ -48,18 +49,19 @@ def start_vendor(msg):
         )
         # Update order
         res = db_client.create_update_order(order=updOrder)
+        # user = bot.get_chat(updOrder.buyer)
+        buyer = db_client.get_user(updOrder.from_id)
 
         # Send full details of order
         bot.edit_message_text(
             chat_id=CHAT_ID,
             message_id=order['msg_id'],
-            text=f"<b>New Order  By @{updOrder.buyer}</b> \nItem: <b>{updOrder.item}</b> \nPickup at: <b>{updOrder.address}</b> \nOrder Status: <b>{updOrder.status}</b> \nCourier: <b>@{updOrder.vendor}</b>",
+            text=f"<b>New Order  By @{updOrder.buyer}</b> \nItem: <b>{updOrder.item}</b> \nPickup at: <b>{updOrder.address}</b> \nHome Address: <b>{buyer.address}</b> \nOrder Status: <b>{updOrder.status}</b> \nCourier: <b>@{updOrder.vendor}</b>",
             parse_mode="html",
             reply_markup=admin_menu()
         )
-        user = bot.get_chat(updOrder.buyer)
 
         bot.send_message(
-            user.id,
+            updOrder.from_id,
             f"🏭 Order accepted by @{updOrder.vendor}"
         )
