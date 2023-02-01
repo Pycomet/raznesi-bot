@@ -2,11 +2,11 @@ from config import *
 from utils import *
 
 
-def start_menu():
-    keyboard = types.InlineKeyboardMarkup(row_width=1)
-    a = types.InlineKeyboardButton("Create New Order", callback_data="order")
-    keyboard.add(a)
-    return keyboard
+# def start_menu():
+#     keyboard = types.InlineKeyboardMarkup(row_width=1)
+#     a = types.InlineKeyboardButton("Create New Order", callback_data="order")
+#     keyboard.add(a)
+#     return keyboard
 
 
 @bot.message_handler(commands=['start'])
@@ -29,8 +29,7 @@ def startbot(msg):
         bot.send_message(
             msg.from_user.id,
             "Welcome to the <b>Offical Reznesi's Order Bot </b>",
-            parse_mode="html",
-            reply_markup=start_menu()
+            parse_mode="html"
         )
 
 
