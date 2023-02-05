@@ -27,7 +27,7 @@ def start_order(msg):
         logging.info("Bot is silent")
         bot.send_message(
             msg.from_user.id,
-            f"No One is Working Right Now! \n\nPlease try again later.",
+            f"Trenutno nema aktivnih dostavljaca pokusajte kasnije hvala. ",
             parse_mode="html"
         )
     else:
@@ -115,7 +115,8 @@ def add_pickup(msg):
 
         bot.send_message(
             msg.from_user.id,
-            f"You just created a new order, please wait for a courier to pick it up..... \n\nYour Home Address: {user['address']}",
+            f"Porudzbina je kreirana, dostavljac ce vam se uskoro javiti. \n\nVasa adresa: {user['address']}",
+            # f"You just created a new order, please wait for a courier to pick it up..... \n\nYour Home Address: {user['address']}",
             reply_markup=cancel_menu()
         )
 
