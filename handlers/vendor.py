@@ -63,5 +63,5 @@ def start_vendor(msg):
 
         bot.send_message(
             updOrder.from_id,
-            f"🏭 Order accepted by @{updOrder.vendor}"
+            f"🏭 Vasa porudzbina je preuzeta kurir ce vam se javiti sa cenom dostave @{updOrder.vendor}"
         )

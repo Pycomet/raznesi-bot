@@ -34,7 +34,8 @@ def start_order(msg):
 
         question = bot.send_message(
             msg.from_user.id,
-            f"Welcome back {msg.from_user.first_name}, \n\nWhat would like to order today? \nE.g Flarey sky ",
+            "Dobro dosli nazad. \nSta zelite da porucite danas? \nNapisite sto vise detalja.",
+            # f"Welcome back {msg.from_user.first_name}, \n\nWhat would like to order today? \nE.g Flarey sky ",
             parse_mode="html"
         )
         bot.register_next_step_handler(question, add_item)
@@ -68,7 +69,8 @@ def add_item(msg):
 
     question = bot.send_message(
         msg.from_user.id,
-        f"What is the pickup location for this order including the part of the city ? ",
+        "Molim vas za pick up adresu kao i deo grada.",
+        # f"What is the pickup location for this order including the part of the city ? ",
         parse_mode="html"
     )
     bot.register_next_step_handler(question, add_pickup)
@@ -169,7 +171,7 @@ def reject_order(msg):
 
     bot.send_message(
         order['from_id'],
-        f"🏭 Order rejected by @{msg.from_user.username}"
+        f"🏭 Preuzeta porudzbina je odbijena i vracena na cekanje sacekajte sledeceg kurira @{msg.from_user.username}"
     )
 
 

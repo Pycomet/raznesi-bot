@@ -21,7 +21,8 @@ def startbot(msg):
 
         question = bot.send_message(
             msg.from_user.id,
-            "To have your account registered, please provide your valid home address including the part of the city"
+            "Zdravo, dobrodošli u Raznesi. \nMolim vas posaljite mi vasu kucnu adresu kao i deo grada u kome se nalazite"
+            # "To have your account registered, please provide your valid home address including the part of the city"
         )
         bot.register_next_step_handler(question, start_new_user)
 
@@ -43,7 +44,8 @@ def start_new_user(msg):
     if msg.from_user.username is None:
         bot.send_message(
             msg.from_user.id,
-            "Please attach a username to your account! Check your settings to be sure to have one, I can not register you on our database without one"
+            "Molim vas dodajte username na vas telegram nalog kako bih mogao da zapamtim vasu adressu. Ovo mozete uraditi u telegram podesavanjima. \nKada to obavite posaljite komandu \n /address i ponovo postavite vasu kucnu adresu kao i deo grada.",
+            # "Please attach a username to your account! Check your settings to be sure to have one, I can not register you on our database without one"
         )
     else:
 
