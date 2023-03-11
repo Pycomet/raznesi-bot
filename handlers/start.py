@@ -29,7 +29,8 @@ def startbot(msg):
     else:
         bot.send_message(
             msg.from_user.id,
-            "Welcome to the <b>Offical Reznesi's Order Bot </b> \n\nClick /order to place an order",
+            # "Welcome to the <b>Offical Reznesi's Order Bot </b> \n\nClick /order to place an order",
+            "Dobro došli u Raznesi. Da bi ste poručili pošaljite komandu /order"
             parse_mode="html"
         )
 
@@ -59,5 +60,6 @@ def start_new_user(msg):
 
         bot.send_message(
             msg.from_user.id,
-            "Account Created. Create your first order by clicking"
+            "Adresa ažurirana. Da bi ste poručili pošaljite komandu /order"
+            # "Account Created. Create your first order by clicking"
         )
