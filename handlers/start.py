@@ -30,7 +30,7 @@ def startbot(msg):
         bot.send_message(
             msg.from_user.id,
             # "Welcome to the <b>Offical Reznesi's Order Bot </b> \n\nClick /order to place an order",
-            "Dobro došli u Raznesi. Da bi ste poručili pošaljite komandu /order"
+            "Dobro došli u Raznesi. Da bi ste poručili pošaljite komandu /order",
             parse_mode="html"
         )
 
